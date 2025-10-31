@@ -70,3 +70,5 @@ def user_logout(request):
     logout(request)
     messages.success(request, 'Вы вышли из системы')
     return redirect('main_page')
+
+амаа
