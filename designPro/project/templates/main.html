@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    Главная страница
+  </title>
+  <style>
+    /* * {
+      border: solid 0.5px
+    } */
+    body {
+      font-size: large;
+      font-family: Calibri;
+      margin: 20px;
+    }
+
+    .container {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 50%;
+    }
+
+    h1, h2, h3 {
+      text-align: center;
+    }
+
+    h3 {
+      margin: auto;
+      max-width: max-content;
+      border-radius: 20%;
+      border-style: solid;
+      border-width: 2px;
+    }
+
+    a {
+      color: blue;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+<div class='container'>
+  <h1>DesignPro</h1>
+  <h2>Самые лучшие дизайны</h2>
+</div>
+{% if user.is_authenticated %}
+        <p>Привет, {{ user.username }}!</p>
+        <a href="{% url 'logout' %}"><button>Выйти</button></a>
+    {% else %}
+        <a href="{% url 'login' %}"><button>Войти</button></a>
+        <a href="{% url 'register' %}"><button>Регистрация</button></a>
+    {% endif %}
+</body>
+</html>
+
