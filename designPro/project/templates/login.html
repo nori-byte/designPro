@@ -8,20 +8,26 @@
 
     {% if messages %}
         {% for message in messages %}
-            <p style="color: {% if message.tags == 'error' %}red{% else %}green{% endif %}">
-                {{ message }}
-            </p>
+            <p><strong>{{ message }}</strong></p>
         {% endfor %}
     {% endif %}
 
     <form method="post">
         {% csrf_token %}
-        <input type="text" name="username" placeholder="Имя пользователя" required><br><br>
-        <input type="password" name="password" placeholder="Пароль" required><br><br>
+            <label>Логин:</label><br>
+           {{ form.username }}
+
+            <label>Пароль:</label><br>
+            {{ form.password }}
+
+
         <button type="submit">Войти</button>
     </form>
 
-    <p><a href="{% url 'register' %}">Нет аккаунта? Зарегистрируйтесь</a></p>
+    <p>Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
     <p><a href="{% url 'main_page' %}">На главную</a></p>
+
+    <hr>
+    <p><small>Тестовый администратор: admin / admin</small></p>
 </body>
 </html>

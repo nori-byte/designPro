@@ -47,13 +47,15 @@
 </head>
 <body>
 <div class='container'>
-  <h1>DesignPro</h1>
+  <h1>Добро пожаловать в Design.pro</h1>
   <h2>Самые лучшие дизайны</h2>
 </div>
 {% if user.is_authenticated %}
         <p>Привет, {{ user.username }}!</p>
         <a href="{% url 'logout' %}"><button>Выйти</button></a>
+        <a href="{% url 'main_page' %}"><button>Главная</button></a>
     {% else %}
+        <a href="{% url 'main_page' %}"><button>Главная</button></a>
         <a href="{% url 'login' %}"><button>Войти</button></a>
         <a href="{% url 'register' %}"><button>Регистрация</button></a>
     {% endif %}

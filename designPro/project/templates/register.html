@@ -4,24 +4,69 @@
     <title>Регистрация</title>
 </head>
 <body>
-    <h2>Регистрация</h2>
+<h2>Создать аккаунт</h2>
 
-    {% if messages %}
-        {% for message in messages %}
-            <p style="color: {% if message.tags == 'error' %}red{% else %}green{% endif %}">
-                {{ message }}
-            </p>
-        {% endfor %}
-    {% endif %}
+{% if messages %}
+{% for message in messages %}
+<p><strong>{{ message }}</strong></p>
+{% endfor %}
+{% endif %}
 
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="username" placeholder="Придумайте имя" required><br><br>
-        <input type="password" name="password" placeholder="Придумайте пароль" required><br><br>
-        <button type="submit">Создать аккаунт</button>
-    </form>
+<form method="post">
+    {% csrf_token %}
 
-    <p><a href="{% url 'login' %}">Уже есть аккаунт? Войдите</a></p>
-    <p><a href="{% url 'main_page' %}">На главную</a></p>
+    <p>
+        <label>ФИО:</label><br>
+        {{ form.full_name }}<br>
+        {% if form.full_name.errors %}
+        {{ form.full_name.errors.0 }}
+        {% endif %}
+    </p>
+
+    <p>
+        <label>Логин:</label><br>
+        {{ form.username }}<br>
+        {% if form.username.errors %}
+        {{ form.username.errors.0 }}>
+        {% endif %}
+    </p>
+
+    <p>
+        <label>Email:</label><br>
+        {{ form.email }}<br>
+        {% if form.email.errors %}
+        {{ form.email.errors.0 }}
+        {% endif %}
+    </p>
+
+    <p>
+        <label>Пароль:</label><br>
+        {{ form.password1 }}<br>
+        {% if form.password1.errors %}
+        { form.password1.errors.0 }}
+        {% endif %}
+    </p>
+
+    <p>
+        <label>Повторите пароль:</label><br>
+        {{ form.password2 }}<br>
+        {% if form.password2.errors %}
+        { form.password2.errors.0 }}
+        {% endif %}
+    </p>
+
+    <p>
+        {{ form.agreement }}
+        <label>Согласен на обработку данных</label><br>
+        {% if form.agreement.errors %}
+        {{ form.agreement.errors.0 }}
+        {% endif %}
+    </p>
+
+    <button type="submit">Создать аккаунт</button>
+</form>
+
+<p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+<p><a href="{% url 'main_page' %}">На главную</a></p>
 </body>
 </html>
