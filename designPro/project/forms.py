@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.core.exceptions import ValidationError
 import re
-from .models import CustomUser
+from .models import CustomUser, DesignRequest
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -52,4 +52,18 @@ class CustomAuthenticationForm(AuthenticationForm):
     )
     password = forms.CharField(
         label='Пароль',
+        widget=forms.PasswordInput()
     )
+
+    from django import forms
+    from .models import DesignRequest
+
+class DesignRequestForm(forms.ModelForm):
+    class Meta:
+        model = DesignRequest
+        fields = ['title', 'description', 'category', 'image']
+        labels = {'image': 'Фото помещения или план'}
+
+
+
+

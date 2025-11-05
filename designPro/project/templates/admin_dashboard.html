@@ -1,0 +1,63 @@
+{% extends "main.html" %}
+{% block content %}
+<h2>Панель администратора</h2>
+
+<!-- СТАТИСТИКА -->
+<h3>Статистика</h3>
+<p>Всего заявок: {{ total_requests }}</p>
+<p>Новых: {{ new_requests }}</p>
+<p>В работе: {{ in_progress_requests }}</p>
+<p>Выполненных: {{ completed_requests }}</p>
+
+<!-- УПРАВЛЕНИЕ ЗАЯВКАМИ -->
+<h3>Все заявки</h3>
+{% if requests %}
+<table border="1">
+    <tr>
+        <th>Пользователь</th>
+        <th>Название</th>
+        <th>Категория</th>
+        <th>Статус</th>
+        <th>Дата</th>
+        <th>Действия</th>
+    </tr>
+    {% for req in requests %}
+    <tr>
+        <td>{{ req.customer.username }}</td>
+        <td>{{ req.title }}</td>
+        <td>{{ req.category.name }}</td>
+        <td>{{ req.get_status_display }}</td>
+        <td>{{ req.created_at|date:"d.m.Y" }}</td>
+        <td>
+            <a href="{% url 'change_request_status' req.pk %}">Изменить статус</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>Заявок нет</p>
+{% endif %}
+
+<!-- УПРАВЛЕНИЕ КАТЕГОРИЯМИ -->
+<h3>Категории</h3>
+{% if categories %}
+<ul>
+    {% for category in categories %}
+    <li>
+        {{ category.name }}
+        <a href="{% url 'delete_category' category.pk %}">Удалить</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Категорий нет</p>
+{% endif %}
+
+<!-- ДОБАВЛЕНИЕ КАТЕГОРИИ -->
+<form method="post" action="{% url 'add_category' %}">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="Название категории" required>
+    <button type="submit">Добавить категорию</button>
+</form>
+
+{% endblock %}

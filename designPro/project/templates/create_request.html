@@ -1,0 +1,33 @@
+{% extends "main.html" %}
+{% block content %}
+    <title>Создать заявку</title>
+    <h2>Создать заявку на дизайн</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <p>
+            <label>Название заявки:</label><br>
+            {{ form.title }}
+        </p>
+
+        <p>
+            <label>Описание:</label><br>
+            {{ form.description }}<br>
+            <small>Опишите что вы хотите</small>
+        </p>
+
+        <p>
+            <label>Категория:</label><br>
+            {{ form.category }}
+        </p>
+        <p>
+            <label>Фото помещения:</label><br>
+            {{ form.image }}
+        </p>
+
+        <button type="submit">Создать заявку</button>
+    </form>
+
+    <p><a href="{% url 'my_requests' %}">Назад к моим заявкам</a></p>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+{% block content %}
+    <h1>Главная страница студии</h1><br>
+    <h1>Design Pro</h1>
+    <h2>Последние 4 выполненные заявки</h2>
+        {% if posts %}
+        <ul>
+            {% for post in posts %}
+            <li>Название: {{ post.title }}</li>
+            <li>Категория: {{ post.category }}</li>
+            <li>Описание: {{ post.description }}</li>
+            <li>Изображение: <img src="{{ post.post_image.url }}" alt="{{ post.title }}"></li>
+            <li>Дата создания: {{ post.creation_date }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <p>Нет выполненных заявок!</p>
+        {% endif %}
+        <p><strong>Принятых в работу заявок:</strong> {{ num_added }}</p>
+{% endblock %}

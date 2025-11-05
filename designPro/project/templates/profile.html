@@ -1,11 +1,18 @@
 {% extends "main.html" %}
-{% block title %} Профиль пользователя {% endblock %}
 {% block content %}
-    <h2>Профиль пользователя {{ user.username }}</h2>
-    {% if user.first_name and user.last_name %}
-        <p>Здравствуйте, {{ user.first_name }} {{ user.last_name }} </p>
-    {% else %}
-        <p>Здравствуйте! </p>
-    {% endif %}
-    <h3>Ваши заявки</h3>
+    <title> Профиль пользователя </title>
+<h2>Профиль пользователя {{ user.username }}</h2>
+{% if user.first_name and user.last_name %}
+<p>Здравствуйте, {{ user.first_name }} {{ user.last_name }} </p>
+{% else %}
+<p>Здравствуйте! </p>
+{% endif %}
+<h3>Меню заявок</h3>
+<p><a href="{% url 'create_request' %}">Создать заявку</a></p>
+<p><a href="{% url 'my_requests' %}">Мои заявки</a></p>
+{% if user.is_staff %}
+<h3>Панель администратора</h3>
+<p><a href="{% url 'admin_dashboard' %}">Админ-панель</a></p>
+{% endif %}
 {% endblock %}
+
