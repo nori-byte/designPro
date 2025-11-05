@@ -15,7 +15,7 @@ li {
   padding-bottom: 1em;
 }
 li a:hover {
-  color: #309dbf;
+  color: #00bff;
 }
 body {
   display: flex;
@@ -41,16 +41,16 @@ td {
 }
 form {
   color: #424551;
-  font-size: 12pt;
+  font-size: 10pt;
 }
 
 label  {
   color: #424551;
-  font-size: 13pt;
-  padding-bottom: 0.5em;
+  font-size: 12pt;
+  padding-bottom: 1em;
 }
 input {
-  border: 0.1em solid #D7DADD;
+  border: 0.1em solid #B3DCFD;
   padding: 0.8em 1em;
   border-radius: 0.25em;
 }
