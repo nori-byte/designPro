@@ -1,4 +1,7 @@
+import os
+
 from django.contrib.auth.models import AbstractUser, User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 
@@ -7,7 +10,6 @@ class CustomUser(AbstractUser):
     full_name = models.CharField(max_length=100, verbose_name='ФИО')
     email = models.EmailField(unique=True, verbose_name='Email')
 
-    # Добавь related_name чтобы избежать конфликтов
     groups = models.ManyToManyField(
         'auth.Group',
         verbose_name='groups',
@@ -42,8 +44,8 @@ class DesignRequest(models.Model):
         ('in-progress', 'Принято в работу'),
         ('complete', 'Выполнено'),
     ]
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new', verbose_name='Статус')
 
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new', verbose_name='Статус')
     title = models.CharField(max_length=100, verbose_name='Название заявки')
     description = models.TextField(verbose_name='Описание')
     category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='Категория')
@@ -60,10 +62,23 @@ class DesignRequest(models.Model):
 from django.contrib import admin
 from .models import Category
 
-# Зарегистрируйте модель Category
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',) # Отображать имя категории в списке админки
 
     class Meta:
         ordering = ['-created_at']
+
+    # class Comment(models.Model):
+    #     title = models.CharField(max_length=255, verbose_name='Заголовок')
+    #     post = models.ForeignKey('DesignRequest', on_delete=models.CASCADE, null=True, verbose_name='Пост')
+    #     description = models.TextField(verbose_name='Описание')
+    #     comment_image = models.ImageField(upload_to='create_request/', null=True, blank=True, verbose_name='Изображение')
+    #
+    #     def __str__(self):
+    #         return self.title
+    #
+    #     class Meta:
+    #         verbose_name = 'Комментарий'
+    #         verbose_name_plural = 'Комментарии'

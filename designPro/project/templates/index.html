@@ -3,14 +3,14 @@
     <h1>Главная страница студии</h1><br>
     <h1>Design Pro</h1>
     <h2>Последние 4 выполненные заявки</h2>
-        {% if posts %}
+        {% if requests %}
         <ul>
-            {% for post in posts %}
-            <li>Название: {{ post.title }}</li>
-            <li>Категория: {{ post.category }}</li>
-            <li>Описание: {{ post.description }}</li>
-            <li>Изображение: <img src="{{ post.post_image.url }}" alt="{{ post.title }}"></li>
-            <li>Дата создания: {{ post.creation_date }}</li>
+            {% for request in requests %}
+            <li>Название: {{ request.title }}</li>
+            <li>Категория: {{ request.category }}</li>
+            <li>Описание: {{ request.description }}</li>
+            <li>Изображение: <img src="{{ request.image.url }}" alt="{{ request.title }}"></li>
+            <li>Дата создания: {{ request.created_at }}</li>
             {% endfor %}
         </ul>
         {% else %}

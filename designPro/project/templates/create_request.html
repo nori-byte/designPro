@@ -2,15 +2,12 @@
 {% block content %}
     <title>Создать заявку</title>
     <h2>Создать заявку на дизайн</h2>
-
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-
         <p>
             <label>Название заявки:</label><br>
             {{ form.title }}
         </p>
-
         <p>
             <label>Описание:</label><br>
             {{ form.description }}<br>

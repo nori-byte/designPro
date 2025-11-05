@@ -1,17 +1,19 @@
 {% extends "main.html" %}
 {% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
     <title>Мои заявки</title>
     <h2>Мои заявки</h2>
     <div>
     <strong>Фильтр по статусу:</strong>
-    <a href="?status=all">Все</a> |
-    <a href="?status=new">Новые</a> |
-    <a href="?status=in-progress">В работе</a> |
+    <a href="?status=all">Все</a>
+    <a href="?status=new">Новые</a>
+    <a href="?status=in-progress">В работе</a>
     <a href="?status=complete">Выполненные</a>
 </div>
 
     {% if requests %}
-        <table border="1" style="width: 100%">
+        <table>
             <tr>
                 <th>Название</th>
                 <th>Категория</th>
@@ -29,6 +31,7 @@
                     <a href="{% url 'delete_request' req.pk %}">Удалить</a>
                 </td>
             </tr>
+
             {% endfor %}
         </table>
     {% else %}

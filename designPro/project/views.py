@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,8 +7,9 @@ from django.views.generic import CreateView, TemplateView, UpdateView, DeleteVie
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm, StatusChange
 from django.contrib.auth.models import User
+
 
 
 # Главная страница
@@ -117,6 +118,10 @@ def my_requests(request):
 @login_required
 def delete_request(request, pk):
     design_request = DesignRequest.objects.get(pk=pk, customer=request.user)
+    # if post.author != request.user:
+    #     raise PermissionDenied("Вы не являетесь автором этого поста.")
+    # if post.status != 'n':
+    #     raise PermissionDenied("Можно удалять только посты со статусом 'Новая'.")
     if request.method == 'POST':
         design_request.delete()
         messages.success(request, 'Заявка удалена!')
@@ -213,10 +218,12 @@ def delete_category(request, pk):
     return redirect('admin_dashboard')
 
 def index(request):
-    posts = DesignRequest.objects.filter(status='d')[:4]
-    num_added = DesignRequest.objects.filter(status__exact='a').count()
-    context = {'posts': posts,
+    requests = DesignRequest.objects.filter(status='in-progress')[:4]
+    num_added = DesignRequest.objects.filter(status__exact='complete').count()
+    context = {'requests': requests,
                'num_added': num_added
                }
     return render(request, 'index.html', context)
+
+
 

@@ -1,0 +1,16 @@
+{% extends "main.html" %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <form method="post" enctype="multipart/form-data">
+            <h1>Удалить категорию</h1>
+            <p>Вы уверены, что хотите удалить эту категорию?</p>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Да, удалить"/>
+            </form>
+        </form>
+    {% else %}
+        <p>Пожалуйста, войдите в аккаунт.</p>
+    {% endif %}
+{% endblock %}
