@@ -1,45 +1,73 @@
 {% extends "main.html" %}
+
+{% block title %}Админ-панель - Design.pro{% endblock %}
+
 {% block content %}
-<h2>Панель администратора</h2>
+    <h1>Панель управления администратора</h1>
 
-<!-- СТАТИСТИКА -->
-<h3>Статистика</h3>
-<p>Всего заявок: {{ total_requests }}</p>
-<p>Новых: {{ new_requests }}</p>
-<p>В работе: {{ in_progress_requests }}</p>
-<p>Выполненных: {{ completed_requests }}</p>
+    <h2>Все заявки</h2>
 
-<!-- УПРАВЛЕНИЕ ЗАЯВКАМИ -->
-<h3>Все заявки</h3>
-{% if requests %}
-<table border="1">
-    <tr>
-        <th>Пользователь</th>
-        <th>Название</th>
-        <th>Категория</th>
-        <th>Статус</th>
-        <th>Дата</th>
-        <th>Действия</th>
-    </tr>
-    {% for req in requests %}
-    <tr>
-        <td>{{ req.customer.username }}</td>
-        <td>{{ req.title }}</td>
-        <td>{{ req.category.name }}</td>
-        <td>{{ req.get_status_display }}</td>
-        <td>{{ req.created_at|date:"d.m.Y" }}</td>
-        <td>
-            <a href="{% url 'change_request_status' req.pk %}">Изменить статус</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-{% else %}
-<p>Заявок нет</p>
-{% endif %}
+    {% if requests %}
+        <table border="1" cellpadding="10" cellspacing="0">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Пользователь</th>
+                <th>Дата</th>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Категория</th>
+                <th>Статус</th>
+                <th>План помещения</th>
+                <th>Дизайн (если есть)</th>
+                <th>Комментарий администратора</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for req in requests %}
+                <tr>
+                    <td>{{ req.id }}</td>
+                    <td>{{ req.user.username }}</td>
+                    <td>{{ req.created_at|date:"d.m.Y H:i" }}</td>
+                    <td>{{ req.title }}</td>
+                    <td>{{ req.description }}</td>
+                    <td>{{ req.category.name }}</td>
+                    <td>{{ req.get_status_display }}</td>
+                    <td>
+                        {% if req.image %}
+                            <a href="{{ req.image.url }}" target="_blank">Посмотреть</a>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if req.image %}
+                            <a href="{{ req.image.url }}" target="_blank">Посмотреть</a>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>{{ req.admin_comment|default:"-" }}</td>
+                    <td>
+                        {% if req.status == 'new' %}
+                            <p><a href="{% url 'change_request_status' req.pk %}">Изменить статус</a></p>
+                        {% elif req.status == 'in_progress' %}
+                            <p><a href="{% url 'change_request_status' req.pk %}">Изменить статус</a></p>
+                        {% else %}
+                            <!-- Статус можно изменить только у "новых" заявок -->
+                            <span style="color: grey;">Изменить статус (недоступно)</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Заявок пока нет.</p>
+    {% endif %}
 
-<!-- УПРАВЛЕНИЕ КАТЕГОРИЯМИ -->
-<h3>Категории</h3>
+    <h3>Категории</h3>
 {% if categories %}
 <ul>
     {% for category in categories %}
@@ -53,7 +81,7 @@
 <p>Категорий нет</p>
 {% endif %}
 
-<!-- ДОБАВЛЕНИЕ КАТЕГОРИИ -->
+
 <form method="post" action="{% url 'add_category' %}">
     {% csrf_token %}
     <input type="text" name="name" placeholder="Название категории" required>

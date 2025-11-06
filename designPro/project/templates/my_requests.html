@@ -1,5 +1,7 @@
 {% extends "main.html" %}
+{% load static %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}?v=1.3">
     <title>Мои заявки</title>
     <h2>Мои заявки</h2>
     <div>
@@ -11,7 +13,7 @@
 </div>
 
     {% if requests %}
-        <table border="1" style="width: 100%">
+        <table>
             <tr>
                 <th>Название</th>
                 <th>Категория</th>
@@ -26,7 +28,7 @@
                 <td>{{ req.get_status_display }}</td>
                 <td>{{ req.created_at|date:"d.m.Y" }}</td>
                 <td>
-                    <a href="{% url 'delete_request' req.pk %}">Удалить</a>
+                    <p><a href="{% url 'delete_request' req.pk %}">Удалить</a></p>
                 </td>
             </tr>
             {% endfor %}

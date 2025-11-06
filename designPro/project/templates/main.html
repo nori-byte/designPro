@@ -3,24 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>DesignPro</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
 </head>
 <body>
-  <div>
-    <ul class="sidebar-nav">
-      <li><a href="{% url 'index' %}">Главная</a></li>
-        {% if user.is_authenticated %}
-                <li>Пользователь: {{ user.get_username }}</li>
-                <li><a href="{% url 'profile' %}">Профиль</a></li>
-                <li><a href="{% url 'logout' %}">Выход</a></li>
-                <li><a href="{% url 'create_request' %}">Создать заявку</a></li>
-        {% else %}
-                <li><a href="{% url 'login'%}">Войти</a></li>
-                <li><a href="{% url 'register' %}">Регистрация</a></li>
-        {% endif %}
-    </ul>
-  </div>
   <div class="content-box">{% block content %}{% endblock %}</div>
 </body>
 </html>

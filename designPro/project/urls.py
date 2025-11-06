@@ -13,7 +13,7 @@ urlpatterns = [
     path('request/<int:pk>/', views.request_detail, name='detail_request'),
     path('request/<int:pk>/delete/', views.delete_request, name='delete_request'),
     path('admin-dashboard/dashboard/', views.AdminDashboardView.as_view(), name='admin_dashboard'),
-    path('admin-dashboard/request/<int:pk>/change-status/', views.change_request_status, name='change_request_status'),
+    path('admin-dashboard/request/<int:pk>/change-request-status/', views.change_request_status, name='change_request_status'),
     path('admin-dashboard/category/add/', views.add_category, name='add_category'),
     path('admin-dashboard/category/<int:pk>/delete/', views.delete_category, name='delete_category'),
 ]

@@ -1,20 +1,55 @@
 {% extends "main.html" %}
+{% load static %}
 {% block content %}
-    <h1>Главная страница студии</h1><br>
-    <h1>Design Pro</h1>
-    <h2>Последние 4 выполненные заявки</h2>
-        {% if posts %}
-        <ul>
-            {% for post in posts %}
-            <li>Название: {{ post.title }}</li>
-            <li>Категория: {{ post.category }}</li>
-            <li>Описание: {{ post.description }}</li>
-            <li>Изображение: <img src="{{ post.post_image.url }}" alt="{{ post.title }}"></li>
-            <li>Дата создания: {{ post.creation_date }}</li>
-            {% endfor %}
-        </ul>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}?v=1.3">
+  <div>
+    <ul class="sidebar-nav">
+      <li><a href="{% url 'index' %}">Главная</a></li>
+        {% if user.is_authenticated %}
+                <li>Пользователь: {{ user.get_username }}</li>
+                <li><a href="{% url 'profile' %}">Профиль</a></li>
+                <li><a href="{% url 'logout' %}">Выход</a></li>
+                <li><a href="{% url 'create_request' %}">Создать заявку</a></li>
         {% else %}
-            <p>Нет выполненных заявок!</p>
+                <li><a href="{% url 'login'%}">Войти</a></li>
+                <li><a href="{% url 'register' %}">Регистрация</a></li>
         {% endif %}
-        <p><strong>Принятых в работу заявок:</strong> {{ num_added }}</p>
+    </ul>
+  </div>
+    <section class="hero">
+        <h1>Главная страница студии Design Pro</h1>
+        <p class="tagline">Создаем пространства, в которых хочется жить</p>
+    </section>
+
+    <section class="latest-requests">
+        <h2>Последние выполненные заявки</h2>
+        {% if requests %}
+        <div class="requests-grid">
+            {% for request in requests %}
+            <div class="request-card">
+                <h3>{{ request.title }}</h3>
+                <p class="request-category">Категория: {{ request.category }}</p>
+                <p class="request-description">{{ request.description }}</p>
+                {% if request.image %}
+                <div class="request-image">
+                    <img src="{{ request.image.url }}" alt="{{ request.title }}">
+                </div>
+                {% endif %}
+                <p class="request-date">Создана: {{ request.created_at|date:"d.m.Y" }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <div class="no-requests">
+                <p>Нет выполненных заявок!</p>
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="stats">
+        <div class="stat-card">
+            <h3>Принятых в работу заявок:</h3>
+            <p class="stat-number">{{ num_added }}</p>
+        </div>
+    </section>
 {% endblock %}
