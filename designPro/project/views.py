@@ -65,7 +65,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         return context
 
 
-# Выход (оставляем функцией для простоты)
+# Выход
 def user_logout(request):
     logout(request)
     messages.success(request, 'Вы успешно вышли из системы')
@@ -133,34 +133,28 @@ class AdminDashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Все заявки для таблицы
         context['requests'] = DesignRequest.objects.all().order_by('-created_at')
-        # Все категории для управления
         context['categories'] = Category.objects.all()
         return context
 
 
 @login_required
 def change_request_status(request, pk):
-    """Смена статуса заявки администратором"""
     if not request.user.is_staff:
         messages.error(request, 'Доступ запрещен')
         return redirect('main_page')
 
     design_request = get_object_or_404(DesignRequest, pk=pk)
 
-    # Проверка возможности смены статуса
     if design_request.status != 'new':
         messages.error(request, 'Нельзя изменить статус заявки, которая уже обрабатывается или выполнена')
         return redirect('admin_dashboard')
 
     if request.method == 'POST':
-        # Получаем данные из формы
         new_status = request.POST.get('status')
         admin_comment = request.POST.get('admin_comment')
         design_image = request.FILES.get('design_image')
 
-        # Проверки для разных статусов
         if new_status == 'in-progress' and not admin_comment:
             messages.error(request, 'Для принятия в работу необходим комментарий')
             return render(request, 'change_status.html', {'request_obj': design_request})
@@ -169,7 +163,6 @@ def change_request_status(request, pk):
             messages.error(request, 'Для выполнения заявки необходимо изображение дизайна')
             return render(request, 'change_status.html', {'request_obj': design_request})
 
-        # Сохраняем изменения
         design_request.status = new_status
         if admin_comment:
             design_request.admin_comment = admin_comment
@@ -186,7 +179,6 @@ def change_request_status(request, pk):
 
 @login_required
 def add_category(request):
-    """Добавление категории администратором"""
     if not request.user.is_staff:
         return redirect('main_page')
 
@@ -202,7 +194,6 @@ def add_category(request):
 
 @login_required
 def delete_category(request, pk):
-    """Удаление категории администратором"""
     if not request.user.is_staff:
         return redirect('main_page')
 

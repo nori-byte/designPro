@@ -74,10 +74,10 @@ class DesignRequest(models.Model):
 from django.contrib import admin
 from .models import Category
 
-# Зарегистрируйте модель Category
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name',) # Отображать имя категории в списке админки
+    list_display = ('name',)
 
     class Meta:
         ordering = ['-created_at']

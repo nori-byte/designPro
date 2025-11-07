@@ -110,11 +110,7 @@ class ChangeStatusForm:
         }
 
     def clean(self):
-        """
-        Дополнительная валидация формы при сохранении.
-        Проверяет, что при смене статуса на 'completed' загружено изображение дизайна,
-        а при смене на 'in_progress' введен комментарий.
-        """
+
         cleaned_data = super().clean()
         status = cleaned_data.get('status')
         design_image = cleaned_data.get('image')
@@ -128,13 +124,7 @@ class ChangeStatusForm:
         return cleaned_data
 
     def __init__(self, *args, **kwargs):
-        """
-        Инициализирует форму.
-        Устанавливает начальные значения виджетов и ограничения на выбор статуса.
-        """
         super().__init__(*args, **kwargs)
-        # Сделаем поля design_image и admin_comment необязательными по умолчанию,
-        # валидация в clean() определит, когда они обязательны.
         self.fields['image'].required = False
         self.fields['admin_comment'].required = False
 
@@ -142,7 +132,4 @@ class ChangeStatusForm:
             """Проверка возможности смены статуса"""
             if self.status != 'new':
                 return False
-
-            # Для новых заявок всегда можно попытаться сменить статус
-            # Валидация будет в форме/представлении
             return new_status in ['in-progress', 'complete']
