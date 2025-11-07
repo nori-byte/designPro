@@ -1,0 +1,32 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}?v=1.1">
+<div class="login-container">
+    <h2>Вход в аккаунт</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+        <div class="messages">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" class="login-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Логин:</label>
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            <label>Пароль:</label>
+            {{ form.password }}
+        </div>
+        <button type="submit" class="login-btn">Войти</button>
+    </form>
+
+    <div class="login-links">
+        <p>Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
+        <p><a href="{% url 'index' %}">На главную</a></p>
+    </div>
+</div>
+{% endblock %}

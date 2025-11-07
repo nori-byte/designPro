@@ -1,0 +1,42 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}?v=1.3">
+    <title>Мои заявки</title>
+    <h2>Мои заявки</h2>
+    <div>
+    <strong>Фильтр по статусу:</strong>
+    <a href="?status=all">Все</a> |
+    <a href="?status=new">Новые</a> |
+    <a href="?status=in-progress">В работе</a> |
+    <a href="?status=complete">Выполненные</a>
+</div>
+
+    {% if requests %}
+        <table>
+            <tr>
+                <th>Название</th>
+                <th>Категория</th>
+                <th>Статус</th>
+                <th>Дата</th>
+                <th>Действия</th>
+            </tr>
+            {% for req in requests %}
+            <tr>
+                <td><a href="{% url 'detail_request' req.pk %}">{{ req.title }}</a></td>
+                <td>{{ req.category.name }}</td>
+                <td>{{ req.get_status_display }}</td>
+                <td>{{ req.created_at|date:"d.m.Y" }}</td>
+                <td>
+                    <p><a href="{% url 'delete_request' req.pk %}">Удалить</a></p>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>У вас пока нет заявок</p>
+    {% endif %}
+
+    <p><a href="{% url 'create_request' %}">Создать новую заявку</a></p>
+    <p><a href="{% url 'profile' %}">В профиль</a></p>
+{% endblock %}

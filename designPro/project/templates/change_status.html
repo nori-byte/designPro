@@ -1,0 +1,46 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}?v=1.1">
+
+<h2>Смена статуса заявки</h2>
+
+<h3>Информация о заявке:</h3>
+<p><strong>Название:</strong> {{ request_obj.title }}</p>
+<p><strong>Категория:</strong> {{ request_obj.category.name }}</p>
+<p><strong>Текущий статус:</strong> {{ request_obj.get_status_display }}</p>
+<p><strong>Описание:</strong> {{ request_obj.description }}</p>
+<p><strong>Дата создания:</strong> {{ request_obj.created_at|date:"d.m.Y H:i" }}</p>
+
+<hr>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <p>
+        <strong>Новый статус:</strong><br>
+        <select name="status">
+            <option value="in-progress">Принято в работу</option>
+            <option value="complete">Выполнено</option>
+        </select>
+    </p>
+
+    <p>
+        <strong>Комментарий администратора:</strong><br>
+        <textarea name="admin_comment" rows="4" cols="50"></textarea><br>
+        <small><em>Заполните если выбираете "Принято в работу"</em></small>
+    </p>
+
+    <p>
+        <strong>Изображение дизайна:</strong><br>
+        <input type="file" name="design_image"><br>
+        <small><em>Загрузите если выбираете "Выполнено"</em></small>
+    </p>
+
+    <p>
+        <button type="submit">Сохранить изменения</button>
+        <a href="{% url 'admin_dashboard' %}">Отмена</a>
+    </p>
+</form>
+</div>
+{% endblock %}

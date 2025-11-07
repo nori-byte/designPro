@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}?v=1.1">
+<div class="login-container">
+    <h2>Удаление заявки</h2>
+
+    <div class="confirmation-message">
+        <p>Вы уверены, что хотите удалить заявку "{{ request.title }}"?</p>
+    </div>
+
+    <form method="post" class="login-form">
+        {% csrf_token %}
+        <div class="form-actions">
+            <button type="submit" class="delete-btn">Да, удалить</button>
+            <a href="{% url 'my_requests' %}" class="cancel-btn">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

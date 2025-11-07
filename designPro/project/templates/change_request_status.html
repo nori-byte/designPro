@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+{% block content %}
+<h2>Смена статуса заявки: {{ request_obj.title }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <p><strong>Текущий статус:</strong> {{ request_obj.get_status_display }}</p>
+
+    <label>Новый статус:</label>
+    <select name="status">
+        <option value="new">Новая</option>
+        <option value="in-progress">Принято в работу</option>
+        <option value="complete">Выполнено</option>
+    </select>
+
+    <button type="submit">Изменить статус</button>
+</form>
+
+<a href="{% url 'admin_requests' %}">Назад к заявкам</a>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "main.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}?v=1.4">
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1 class="auth-title">Профиль пользователя</h1>
+        </div>
+
+        <div class="profile-info">
+            <h2>{{ user.username }}</h2>
+            {% if user.first_name and user.last_name %}
+            <p>{{ user.first_name }} {{ user.last_name }}</p>
+            {% endif %}
+        </div>
+
+        <div class="auth-links">
+            <a href="{% url 'create_request' %}" class="auth-link">Создать заявку</a>
+            <a href="{% url 'my_requests' %}" class="auth-link">Мои заявки</a>
+            <a href="{% url 'index' %}">Главная</a>
+
+            {% if user.is_staff %}
+            <a href="{% url 'admin_dashboard' %}" class="auth-link admin-link">Админ-панель</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

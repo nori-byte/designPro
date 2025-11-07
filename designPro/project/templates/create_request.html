@@ -1,0 +1,39 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}?v=1.1">
+<div class="login-container">
+    <h2>Создать заявку на дизайн</h2>
+
+    <form method="post" enctype="multipart/form-data" class="login-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Название заявки:</label>
+            {{ form.title }}
+        </div>
+
+        <div class="form-group">
+            <label>Описание:</label>
+            {{ form.description }}
+            <small>Опишите что вы хотите</small>
+        </div>
+
+        <div class="form-group">
+            <label>Категория:</label>
+            {{ form.category }}
+        </div>
+
+        <div class="form-group">
+            <label>Фото помещения:</label>
+            {{ form.image }}
+        </div>
+
+        <button type="submit" class="login-btn">Создать заявку</button>
+    </form>
+
+    <div class="login-links">
+        <p><a href="{% url 'my_requests' %}">Назад к моим заявкам</a></p>
+    </div>
+</div>
+{% endblock %}
