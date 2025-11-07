@@ -55,7 +55,6 @@
                         {% elif req.status == 'in_progress' %}
                             <p><a href="{% url 'change_request_status' req.pk %}">Изменить статус</a></p>
                         {% else %}
-                            <!-- Статус можно изменить только у "новых" заявок -->
                             <span style="color: grey;">Изменить статус (недоступно)</span>
                         {% endif %}
                     </td>
