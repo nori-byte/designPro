@@ -70,11 +70,6 @@ def file_size(value):
     if value.size > limit:
         raise ValidationError('Размер файла не должен превышать 2Мб.')
 
-class DesignRequestForm(forms.ModelForm):
-    Category = forms.ModelChoiceField(queryset=Category.objects.all(), label='Категория')
-    create_image = forms.FileField(label='Изображение')
-
-
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(label='Логин')
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput())
@@ -85,28 +80,22 @@ class DesignRequestForm(forms.ModelForm):
         fields = ['title', 'description', 'category', 'image']
         labels = {'image': 'Фото помещения или план'}
 
-class ChangeStatusForm:
+class ChangeStatusForm(forms.ModelForm):
     """     Форма для изменения статуса заявки администратором.   """
     class Meta:
         model = DesignRequest
         fields = ['status', 'design_image', 'admin_comment']
         labels = {
             'status': 'Новый статус',
-            'image': 'Изображение дизайна (требуется для статуса "Выполнено")',
+            'design_image': 'Изображение дизайна (требуется для статуса "Выполнено")',
             'admin_comment': 'Комментарий (требуется для статуса "Принято в работу")',
-        }
-        widgets = {
-            'admin_comment': forms.Textarea(attrs={
-                'rows': 3,
-                'placeholder': 'Введите комментарий для пользователя...'
-            }),
         }
 
     def clean(self):
 
         cleaned_data = super().clean()
         status = cleaned_data.get('status')
-        design_image = cleaned_data.get('image')
+        design_image = cleaned_data.get('design_image')
         admin_comment = cleaned_data.get('admin_comment')
 
         if status == 'complete' and not design_image:
@@ -118,11 +107,10 @@ class ChangeStatusForm:
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['image'].required = False
+        self.fields['design_image'].required = False
         self.fields['admin_comment'].required = False
 
         def can_change_status(self, new_status):
-            """Проверка возможности смены статуса"""
             if self.status != 'new':
                 return False
             return new_status in ['in-progress', 'complete']

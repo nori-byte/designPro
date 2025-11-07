@@ -44,10 +44,13 @@ class DesignRequest(models.Model):
     title = models.CharField(max_length=100, verbose_name='Название заявки')
     description = models.TextField(verbose_name='Описание')
     category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='Категория')
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Заказчик', null=True, blank=True)
+    customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='Заказчик', null=True, blank=True)
     image = models.ImageField(upload_to='design_requests/',verbose_name='Изображение', null=True, blank=False, validators=[validate_userrequest_image_extension])
     created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
-    admin_comment = models.TextField(verbose_name='Комментарий администратора', null=True, blank=True)
+
+    design_image = models.ImageField(upload_to='design_img/',blank=False, null=True, validators=[validate_userrequest_image_extension])
+    admin_comment = models.TextField(null=True, blank=True)
+
 
     def __str__(self):
         return self.title
@@ -58,18 +61,6 @@ class DesignRequest(models.Model):
     def can_be_deleted(self):
         """Проверка, можно ли удалить заявку"""
         return self.status == 'new'
-
-    def can_change_status(self, new_status):
-        """Проверка возможности смены статуса"""
-        if self.status != 'new':
-            return False
-
-        if new_status == 'complete':
-            return bool(self.image)
-        elif new_status == 'in-progress':
-            return bool(self.admin_comment)
-
-        return False
 
 from django.contrib import admin
 from .models import Category

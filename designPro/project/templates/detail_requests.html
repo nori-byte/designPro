@@ -13,6 +13,14 @@
     <p><strong>Изображение:</strong> не загружено</p>
     {% endif %}
     <p><strong>Дата заявки:</strong><br>{{ request.created_at|date:"d.m.Y H:i" }}</p>
-</div>
+<div>
+    <h3>Комментарии администратора</h3>
+    {% if request.design_image %}
+     <img src="{{ request.design_image.url }}" class="img" alt="Фото">
+    {% else %}
+    -
+    {% endif %}
+    {{ request.admin_comment|default:"-" }}
     <p><a href="{% url 'my_requests' %}">Назад к заявкам</a></p>
+</div>
 {% endblock %}

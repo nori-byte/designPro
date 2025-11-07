@@ -12,7 +12,6 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Пользователь</th>
                 <th>Дата</th>
                 <th>Название</th>
                 <th>Описание</th>
@@ -28,7 +27,6 @@
             {% for req in requests %}
                 <tr>
                     <td>{{ req.id }}</td>
-                    <td>{{ req.user.username }}</td>
                     <td>{{ req.created_at|date:"d.m.Y H:i" }}</td>
                     <td>{{ req.title }}</td>
                     <td>{{ req.description }}</td>
@@ -42,8 +40,8 @@
                         {% endif %}
                     </td>
                     <td>
-                        {% if req.image %}
-                            <a href="{{ req.image.url }}" target="_blank">Посмотреть</a>
+                        {% if req.design_image %}
+                            <a href="{{ req.design_image.url }}" target="_blank">Посмотреть</a>
                         {% else %}
                             -
                         {% endif %}
@@ -79,12 +77,13 @@
 {% else %}
 <p>Категорий нет</p>
 {% endif %}
-
-
 <form method="post" action="{% url 'add_category' %}">
     {% csrf_token %}
     <input type="text" name="name" placeholder="Название категории" required>
     <button type="submit">Добавить категорию</button>
 </form>
-
+<li><a href="{% url 'index' %}">Главная</a></li>
 {% endblock %}
+
+
+
