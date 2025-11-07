@@ -7,7 +7,7 @@ from django.views.generic import CreateView, TemplateView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from .forms import RegistrationForm, CustomAuthenticationForm
 
 
 def index(request):
@@ -18,8 +18,6 @@ def index(request):
                }
     return render(request, 'index.html', context)
 
-    def index(request):
-        return render(request, 'index.html')
 
 
 # Вход
@@ -40,16 +38,16 @@ class UserLoginView(LoginView):
 
 
 # Регистрация
-class RegisterUserView(SuccessMessageMixin, CreateView):
-    template_name = 'register.html'
-    form_class = CustomUserCreationForm
-    success_url = reverse_lazy('index')
-    success_message = 'Регистрация прошла успешно!'
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        login(self.request, self.object)  # Автоматический вход после регистрации
-        return response
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('index')
+    else:
+        form = RegistrationForm()
+    return render(request, 'register.html', {'form': form})
 
 
 # Профиль пользователя
@@ -121,7 +119,7 @@ def delete_request(request, pk):
 @login_required
 def request_detail(request, pk):
     design_request = DesignRequest.objects.get(pk=pk, customer=request.user)
-    return render(request, 'detail_request.html', {'request': design_request})
+    return render(request, 'detail_requests.html', {'request': design_request})
 
 #личный кабинет администратора
 class AdminDashboardView(LoginRequiredMixin, TemplateView):

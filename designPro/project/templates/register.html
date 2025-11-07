@@ -1,43 +1,9 @@
 {% extends "main.html" %}
-{% load static %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/register.css' %}?v=1.3">
-<div class="login-container">
-    <h2>Создать аккаунт</h2>
-
-    {% if messages %}
-        {% for message in messages %}
-        <div class="messages">
-            <strong>{{ message }}</strong>
-        </div>
-        {% endfor %}
-    {% endif %}
-
-    <form method="post" class="login-form">
-        {% csrf_token %}
-
-        <div class="form-group">
-            <label>Логин:</label>
-            {{ form.username }}
-        </div>
-
-        <div class="form-group">
-            <label>Пароль:</label>
-            {{ form.password1 }}
-        </div>
-
-        <div class="form-group">
-            <label>Подтверждение пароля:</label>
-            {{ form.password2 }}
-        </div>
-
-        <button type="submit" class="login-btn">Создать аккаунт</button>
-    </form>
-
-    <div class="login-links">
-        <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
-        <p><a href="{% url 'index' %}">На главную</a></p>
-    </div>
-</div>
+<h2>Регистрация</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Зарегистрироваться</button>
+</form>
 {% endblock %}
-
