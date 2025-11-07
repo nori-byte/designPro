@@ -173,7 +173,6 @@ def change_request_status(request, pk):
         messages.success(request, f'Статус заявки изменен на "{design_request.get_status_display()}"')
         return redirect('admin_dashboard')
 
-    # GET запрос - просто показываем форму
     return render(request, 'change_status.html', {'request_obj': design_request})
 
 

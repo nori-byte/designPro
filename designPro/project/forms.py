@@ -91,9 +91,7 @@ class DesignRequestForm(forms.ModelForm):
         labels = {'image': 'Фото помещения или план'}
 
 class ChangeStatusForm:
-    """
-   #     Форма для изменения статуса заявки администратором.
-   #     """
+    """     Форма для изменения статуса заявки администратором.   """
     class Meta:
         model = DesignRequest
         fields = ['status', 'design_image', 'admin_comment']
