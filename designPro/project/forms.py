@@ -76,13 +76,8 @@ class DesignRequestForm(forms.ModelForm):
 
 
 class CustomAuthenticationForm(AuthenticationForm):
-    username = forms.CharField(
-        label='Логин',
-    )
-    password = forms.CharField(
-        label='Пароль',
-        widget=forms.PasswordInput()
-    )
+    username = forms.CharField(label='Логин')
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput())
 
 class DesignRequestForm(forms.ModelForm):
     class Meta:
